@@ -1,138 +1,363 @@
-# ZapNode - Integração WhatsApp + Chatwoot
+# ZapNode - Integracao WhatsApp + CRM
 
-## 🎯 Objetivo do Projeto
+> Conecte WhatsApp com seu CRM e sincronize conversas em tempo real
 
-O **ZapNode** é uma integração que conecta o WhatsApp Web ao Chatwoot, permitindo centralizar o atendimento ao cliente em uma plataforma unificada. O projeto utiliza Node.js para criar uma ponte entre essas duas plataformas, possibilitando:
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-16+-green.svg)](https://nodejs.org/)
 
-- Receber mensagens do WhatsApp e encaminhá-las para o Chatwoot
-- Enviar respostas do Chatwoot de volta para o WhatsApp
-- Gerenciar contatos e conversas de forma automática
-- Manter um histórico de conversas no banco de dados SQLite
+## Visao Geral
 
-## ⚠️ Aviso Importante
+ZapNode e uma aplicacao Node.js que conecta WhatsApp Web com seu CRM, permitindo:
 
-**Este é um protótipo em desenvolvimento e NÃO está pronto para produção.** Antes de usar em ambiente de produção, são necessários os seguintes aprimoramentos:
+- Receber mensagens do WhatsApp e sincronizar no CRM
+- Enviar respostas do CRM de volta para o WhatsApp
+- Gerenciar contatos e conversas automaticamente
+- Manter historico completo de mensagens
 
-- [ ] Implementar tratamento robusto de erros
-- [ ] Adicionar logs estruturados
-- [ ] Configurar rate limiting para webhooks
-- [ ] Implementar autenticação e autorização
-- [ ] Adicionar testes unitários e de integração
-- [ ] Configurar monitoramento e observabilidade
-- [ ] Implementar reconexão automática em caso de falhas
-- [ ] Adicionar validação de dados de entrada
-- [ ] Configurar backup e recuperação do banco de dados
-- [ ] Implementar segurança adicional (HTTPS, tokens seguros)
+## Branches Disponiveis
 
-## 🛠️ Requisitos
+### `main` - Chatwoot
+Integracao original com Chatwoot CRM.
 
-### Pré-requisitos
+### `lovable-crm-integration` **[NOVO]** 
+Integracao com CRM desenvolvido no Lovable.
 
-- **Node.js** (versão 16 ou superior)
-- **npm** ou **yarn**
-- **Chrome/Chromium** (para o Puppeteer)
-- **Conta no Chatwoot** com API habilitada
+**Use esta branch se:**
+- Voce desenvolveu seu CRM no Lovable
+- Precisa de um backend REST API personalizado
+- Quer sincronizar mensagens do WhatsApp no seu CRM
 
-## 📥 Instalação
+---
 
-### 1. Clone o repositório
+## Guia Rapido para a Branch Lovable
+
+### 1. Clonar a branch
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/maestroicaro/zapnode.git
 cd zapnode
+git checkout lovable-crm-integration
 ```
 
-### 2. Instale as dependências
+### 2. Instalar dependencias
 
 ```bash
 npm install
 ```
 
-### 3. Configure as variáveis de ambiente
+### 3. Configurar variaveis de ambiente
 
-Crie um arquivo `.env` na raiz do projeto:
+Copie o template:
+
+```bash
+cp .env.lovable .env
+```
+
+Edite o arquivo `.env`:
 
 ```env
-# Configurações do Chatwoot
-CHATWOOT_URL=https://app.chatwoot.com
-CHATWOOT_ACCOUNT_ID=id_da_sua_conta
-CHATWOOT_API_TOKEN=seu_token_aqui
-CHATWOOT_INBOX_ID=id_da_caixa_de_entrada_criada
+# URL e chave da API do seu CRM Lovable
+LOVABLE_API_URL=http://seu-crm.com/api
+LOVABLE_API_KEY=sua_chave_api_super_secreta
 
-# Configurações do servidor
-PORT=3000
+# Numero do WhatsApp
+WHATSAPP_PHONE_NUMBER=5511999999999
+
+# Configuracoes opcionais
+NODE_ENV=development
+PORT=3001
 ```
 
-### 4. Crie a pasta do banco de dados
-
-```bash
-mkdir db
-```
-
-## 🚀 Como Usar
-
-### Desenvolvimento
-
-```bash
-npm run dev
-```
-
-### Produção
+### 4. Iniciar o ZapNode
 
 ```bash
 npm start
 ```
 
-### Primeira execução
-
-1. Execute o projeto
-2. Escaneie o QR Code que aparecerá no terminal com o WhatsApp Web
-3. Configure o webhook no Chatwoot apontando para: `http://seu-servidor:3000/webhook`
-
-## 🏗️ Estrutura do Projeto
-
-```text
-zapnode.codigofonte.tv/
-├── app/
-│   ├── server.js      # Servidor principal
-│   ├── whatsapp.js    # Integração com WhatsApp Web
-│   └── webhook.js     # Endpoint para receber webhooks do Chatwoot
-├── db/                # Banco de dados SQLite (criado automaticamente)
-├── package.json       # Dependências e scripts
-├── .env              # Variáveis de ambiente (criar)
-└── README.md         # Este arquivo
-```
-
-## 🔧 Configuração do Chatwoot
-
-1. Acesse as configurações da sua conta no Chatwoot
-2. Vá para "Caixas de Entrada" > "Adicionar Caixa de Entrada"
-3. Escolha "API"
-
-- Nome do canal: `WhatsApp`
-- URL do webhook: `http://seu-servidor:3000/webhook`
-
-## 📝 Funcionalidades Atuais
-
-- ✅ Conecta ao WhatsApp Web via puppeteer
-- ✅ Recebe mensagens do WhatsApp e envia para o Chatwoot
-- ✅ Recebe respostas do Chatwoot e envia para o WhatsApp
-- ✅ Armazena contatos em banco SQLite
-- ✅ Gera QR Code para autenticação
-
-## 🐛 Problemas Conhecidos
-
-- Autenticação do WhatsApp pode expirar e precisar ser refeita
-- Sem tratamento de reconexão automática
-- Logs limitados para debugging
-- Falta validação de dados de entrada
-
-## 👨‍💻 Autor
-
-Gabriel Froes (para o Código Fonte TV)
-
-- Video: [ZapNode - Integração WhatsApp + Chatwoot](https://www.youtube.com/@codigofontetv)
+Voce vera um QR Code no terminal. Escaneie com seu WhatsApp para autorizar.
 
 ---
 
-**⚠️ Lembrete:** Este é um protótipo experimental. Use apenas para testes e desenvolvimento. Não recomendado para produção sem os devidos aprimoramentos de segurança e estabilidade.
+## O que o Lovable CRM Precisa Implementar
+
+Seu CRM Lovable precisa ter um **backend REST API** com os seguintes endpoints:
+
+### Contatos
+
+```
+POST   /api/contacts          - Criar contato
+GET    /api/contacts/:phone   - Obter contato
+PUT    /api/contacts/:id      - Atualizar contato
+DELETE /api/contacts/:id      - Remover contato
+```
+
+### Conversas
+
+```
+POST   /api/conversations     - Criar conversa
+GET    /api/conversations/:id - Obter conversas
+PUT    /api/conversations/:id - Atualizar conversa
+DELETE /api/conversations/:id - Remover conversa
+```
+
+### Mensagens
+
+```
+POST   /api/messages          - Adicionar mensagem
+GET    /api/messages/:id      - Obter mensagens
+```
+
+### Webhook
+
+```
+POST   /api/webhook/whatsapp  - Receber mensagens do WhatsApp
+```
+
+**Autenticacao:** Todas as requisicoes usam header `X-API-Key`
+
+---
+
+## Arquivos Importantes
+
+### Para a Branch Lovable
+
+```
+zapnode/
+├── app/
+│   ├── adapters/
+│   │   ├── lovable-crm-adapter.js    <- Adapter para Lovable
+│   │   └── chatwoot-adapter.js       <- Adapter original (nao usado)
+│   ├── server.js                     <- Servidor principal
+│   ├── webhook.js                    <- Handler de webhooks
+│   └── whatsapp.js                   <- Integracao com WhatsApp
+├── docs/
+│   └── LOVABLE_INTEGRATION.md        <- Documentacao tecnica detalhada
+├── .env.lovable                      <- Template de configuracao
+├── LOVABLE_QUICKSTART.md             <- Guia rapido
+└── README.md                         <- Este arquivo
+```
+
+---
+
+## Como Funciona
+
+```
+WhatsApp Web
+    |
+    | (Puppeteer detecta)
+    v
+[ZapNode]
+    |
+    | (LovableCRMAdapter traduz)
+    v
+[Seu CRM Lovable]
+    |
+    | (API REST)
+    v
+[Banco de Dados]
+```
+
+### Fluxo de Mensagens Recebidas
+
+1. **WhatsApp Web:** Usuario envia mensagem
+2. **ZapNode:** Puppeteer detecta a nova mensagem
+3. **Adapter Lovable:** Cria/atualiza contato e conversa
+4. **API do CRM:** Envia dados para seu backend
+5. **CRM:** Armazena no banco de dados
+6. **Interface:** Voce ve a mensagem no CRM em tempo real
+
+### Fluxo de Mensagens Enviadas
+
+1. **CRM:** Agente responde uma conversa
+2. **Webhook:** ZapNode recebe a resposta
+3. **ZapNode:** Envia para WhatsApp Web
+4. **WhatsApp:** Mensagem e enviada ao cliente
+
+---
+
+## Requisitos
+
+### Pre-requisitos
+
+- Node.js versao 16 ou superior
+- npm ou yarn
+- Chrome/Chromium (para Puppeteer)
+- CRM Lovable com backend implementado
+
+### Requisitos do CRM Lovable
+
+- Express.js ou similar
+- PostgreSQL ou MongoDB
+- API Key segura (minimo 32 caracteres)
+- Endpoints implementados conforme especificacao
+
+---
+
+## Instalacao
+
+### 1. Clone o repositorio
+
+```bash
+git clone https://github.com/maestroicaro/zapnode.git
+cd zapnode
+git checkout lovable-crm-integration
+```
+
+### 2. Instale as dependencias
+
+```bash
+npm install
+```
+
+### 3. Configure as variaveis de ambiente
+
+```bash
+cp .env.lovable .env
+# Edite o arquivo .env com suas configuracoes
+```
+
+### 4. Inicie o servidor
+
+```bash
+npm start
+```
+
+---
+
+## Configuracao
+
+Veja o arquivo `.env.lovable` para todas as opcoes de configuracao.
+
+### Variaveis Principais
+
+```env
+# Obrigatorias
+LOVABLE_API_URL=http://localhost:3000/api
+LOVABLE_API_KEY=sua_chave_api
+
+# Opcionais
+NODE_ENV=development
+PORT=3001
+LOG_LEVEL=info
+SYNC_CONTACTS=true
+SYNC_MESSAGES=true
+```
+
+---
+
+## Uso
+
+### Iniciar em desenvolvimento
+
+```bash
+npm run dev
+```
+
+### Iniciar em producao
+
+```bash
+npm start
+```
+
+### Ver logs
+
+```bash
+cat logs/zapnode.log
+```
+
+---
+
+## Documentacao
+
+- **[LOVABLE_INTEGRATION.md](docs/LOVABLE_INTEGRATION.md)** - Guia tecnico completo
+- **[LOVABLE_QUICKSTART.md](LOVABLE_QUICKSTART.md)** - Guia rapido
+- **[.env.lovable](.env.lovable)** - Variaveis de ambiente
+
+---
+
+## Estrutura do Adapter
+
+O arquivo `app/adapters/lovable-crm-adapter.js` implementa:
+
+- **upsertContact()** - Sincroniza contatos
+- **upsertConversation()** - Cria/atualiza conversas
+- **addMessage()** - Armazena mensagens
+- **getMessages()** - Recupera historico
+- **closeConversation()** - Fecha conversas
+
+---
+
+## Testes
+
+Testar os endpoints do CRM:
+
+```bash
+# Criar contato
+curl -X POST http://localhost:3000/api/contacts \
+  -H "X-API-Key: sua_chave" \
+  -H "Content-Type: application/json" \
+  -d '{"phone": "+5511999999999", "name": "Joao"}'
+
+# Obter contato
+curl -X GET http://localhost:3000/api/contacts/+5511999999999 \
+  -H "X-API-Key: sua_chave"
+```
+
+---
+
+## Troubleshooting
+
+### QR Code nao aparece
+- Certifique-se de que o Chrome/Chromium esta instalado
+- Verifique os logs: `npm start 2>&1 | grep -i erro`
+
+### Conexao recusada ao CRM
+- Verifique se `LOVABLE_API_URL` esta correto
+- Confirme que `LOVABLE_API_KEY` foi gerada no seu CRM
+- Teste a conexao: `curl -H "X-API-Key: sua_chave" http://seu-crm/api/contacts`
+
+### Mensagens nao sincronizam
+- Verifique os logs do ZapNode
+- Confirme que o webhook esta recebendo dados
+- Teste os endpoints do CRM manualmente
+
+---
+
+## Status da Branch
+
+- [x] Adapter Lovable CRM criado
+- [x] Configuracao .env.lovable
+- [x] Documentacao tecnica
+- [x] Guia rapido
+- [ ] Webhook.js adaptado para usar LovableCRMAdapter
+- [ ] Testes de integracao
+- [ ] Deploy em producao
+
+---
+
+## Contribuindo
+
+Duvidas ou sugestoes? Abra uma issue no repositorio!
+
+---
+
+## Licenca
+
+MIT License - veja [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## Proximos Passos
+
+1. **Backend Lovable:** Implemente os endpoints conforme especificacao
+2. **Teste Local:** Configure o .env e teste a integracao
+3. **Webhook Adaptado:** Quando robusto, adapte webhook.js para usar o adapter
+4. **Deploy:** Configure em ambiente de producao
+
+---
+
+**Desenvolvido com amor por maestroicaro**
+
+Ultima atualizacao: 26 de dezembro de 2025
+
+Branch: `lovable-crm-integration`
